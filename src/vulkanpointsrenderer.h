@@ -1,4 +1,4 @@
-﻿#include "utils.h"
+#include "utils.h"
 
 #include <iostream>
 #include <fstream>
@@ -68,8 +68,8 @@ private:
     // Vertex* raw_verts = new Vertex[N_FOR_VIS];
     // uint32_t* raw_indices = new uint32_t[N_FOR_VIS];
 
-    int* cellVertArray = new int[N_GRID_CELLS * 6]{ 0 };
-    int* cellVertCount = new int[N_GRID_CELLS]{ 0 };
+    int* cellVertArray = new int[N_GRID_CELLS * 6];
+    int* cellVertCount = new int[N_GRID_CELLS];
 
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
@@ -183,12 +183,12 @@ private:
         // float l = 0.98f * (float)n / 10.f;
         int idxForWholeVertices = 0;
         const glm::vec3 OFFSET(0.05f, 0.05f, 0.05f);
-        PointsGenerator::createCube(raw_verts, raw_indices, idxForWholeVertices, N_SIDE, OFFSET, glm::vec3(1.f, 1.f, 1.f));
+        PointsGenerator::createCube(raw_verts, raw_indices, idxForWholeVertices, 10, OFFSET, glm::vec3(1.f, 1.f, 1.f));
         std::cout << "Number of vertices: " << raw_verts.size() << std::endl;
         
-        //PointsGenerator::createSphere(raw_verts, raw_indices, idxForWholeVertices, 20, glm::vec3(0.05f, 4.f, 0.05f), glm::vec3(0.5f, 1.f, 1.f), glm::vec3(0.f, 0.f, 0.f));
+        //PointsGenerator::createSphere(raw_verts, raw_indices, idxForWholeVertices, 40, glm::vec3(0.05f, 4.f, 0.05f), glm::vec3(1.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
         //PointsGenerator::createTorus(raw_verts, raw_indices, idxForWholeVertices, N_SIDE, glm::vec3(0.05f, 1.f, 0.05f), glm::vec3(1.f, 0.f, 0.f));
-        // PointsGenerator::createHeart(raw_verts, raw_indices, idxForWholeVertices, N_SIDE, glm::vec3(0.05f, 1.f, 0.05f), glm::vec3(1.f, 0.f, 0.f));
+       // PointsGenerator::createHeart(raw_verts, raw_indices, idxForWholeVertices, N_SIDE, glm::vec3(0.05f, 1.f, 0.05f), glm::vec3(1.f, 0.f, 0.f));
         std::cout << "Number of vertices: " << raw_verts.size() << std::endl;
     }
 
@@ -216,9 +216,9 @@ private:
         createCellVertArrayBuffer();
         createCellVertCountBuffer();
 
-        createComputePipeline("../src/shaders/physicsCompute.spv", computePipelinePhysics);
-        createComputePipeline("../src/shaders/fillCellVertexInfo.spv", computePipelineFillCellVertex);
-        createComputePipeline("../src/shaders/resetCellVertexInfo.spv", computePipelineResetCellVertex); 
+        createComputePipeline("D:\\project\\RealTimeParticleBasedSnowSimulation\\src\\shaders\\physicsCompute.spv", computePipelinePhysics);
+        createComputePipeline("D:\\project\\RealTimeParticleBasedSnowSimulation\\src\\shaders\\fillCellVertexInfo.spv", computePipelineFillCellVertex);
+        createComputePipeline("D:\\project\\RealTimeParticleBasedSnowSimulation\\src\\shaders\\resetCellVertexInfo.spv", computePipelineResetCellVertex); 
 
         createuniformUboBuffers();
         createDescriptorPool();
@@ -847,8 +847,8 @@ private:
     }
 
     void createGraphicsPipeline() {
-        auto vertShaderCode = readFile("../src/shaders/vert.spv");
-        auto fragShaderCode = readFile("../src/shaders/frag.spv");
+        auto vertShaderCode = readFile("D:\\project\\RealTimeParticleBasedSnowSimulation\\src\\shaders\\vert.spv");
+        auto fragShaderCode = readFile("D:\\project\\RealTimeParticleBasedSnowSimulation\\src\\shaders\\frag.spv");
 
         auto vertShaderModule = createShaderModule(vertShaderCode);
         auto fragShaderModule = createShaderModule(fragShaderCode);
@@ -1093,6 +1093,7 @@ private:
     // Load an image and upload it into a Vulkan image object
     void createTextureImage() {
         int texWidth, texHeight, texChannels;
+		std::cout<< TEXTURE_PATH;
         stbi_uc* pixels = stbi_load(TEXTURE_PATH.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
         vk::DeviceSize imageSize = texWidth * texHeight * 4;
 
@@ -1996,11 +1997,10 @@ private:
 
     static std::vector<char> readFile(const std::string& filename) {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
-
         if (!file.is_open()) {
-            throw std::runtime_error("failed to open file!");
+			std::cout << filename;
+            throw std::runtime_error(filename);
         }
-
         size_t fileSize = (size_t)file.tellg();
         std::vector<char> buffer(fileSize);
 

@@ -53,7 +53,7 @@ struct UniformBufferObject {
 
 
 const int N_GRID_CELLS = 1000000;
-const int N_SIDE = 30;
+const int N_SIDE = 20;
 const int N_FOR_VIS = N_SIDE * N_SIDE * N_SIDE;
 const float DT = 0.0017f;
 const int WIDTH = 1000;
@@ -62,9 +62,9 @@ const float BALL_SCALE_FACTOR = 0.01f;
 const glm::mat4 BALL_SCALE_MAT = glm::scale(glm::mat4(1), glm::vec3(BALL_SCALE_FACTOR, BALL_SCALE_FACTOR, BALL_SCALE_FACTOR));
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
-const std::string BALL_PATH = "../assets/models/sphere.obj";
-const std::string TEXTURE_PATH = "../assets/images/viking_room.png";
-const std::string MODEL_PATH = "../assets/models/viking_room.obj";
+const std::string BALL_PATH = "D:\\project\\RealTimeParticleBasedSnowSimulation\\assets\\models\\sphere.obj";
+const std::string TEXTURE_PATH = "D:\\project\\RealTimeParticleBasedSnowSimulation\\assets\\images\\viking_room.png";
+//const std::string MODEL_PATH = "D:\\project\\RealTimeParticleBasedSnowSimulation\\assets\\models\\viking_room.obj";
 
 bool leftMouseDown = false;
 bool rightMouseDown = false;
@@ -75,8 +75,8 @@ float r = 20.0f;
 float theta = 1.0f;
 float phi = -0.7f;
 
-glm::vec3 eye = glm::vec3(5.0f, 10.0f, r);
-glm::mat4 viewMat = glm::lookAt(eye, glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+glm::vec3 eye = glm::vec3(10.0f, 5.0f, r);
+glm::mat4 viewMat = glm::lookAt(eye, glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(100.0f, 1.0f, 0.0f));
 
 static void updateOrbit(float deltaX, float deltaY, float deltaZ) {
     theta += deltaX;
